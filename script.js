@@ -59,6 +59,7 @@ if (
     memberBio.textContent = member.bio;
     if (member.image) {
       memberPhoto.src = member.image;
+      memberPhoto.alt = `${member.name}'s GitHub profile photo`;
       memberPhoto.hidden = false;
     } else {
       memberPhoto.removeAttribute("src");
