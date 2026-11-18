@@ -89,3 +89,18 @@ iframe {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+
+@media (max-width: 560px) {
+  body {
+    padding: 32px 16px;
+  }
+
+  .demo-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  iframe {
+    min-height: 280px;
+  }
+}
