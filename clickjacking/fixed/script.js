@@ -1,0 +1,1 @@
+document.body.dataset.status = "frame-embedding-blocked";
