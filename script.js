@@ -74,6 +74,7 @@ if (
   };
 
   memberButtons.forEach((button) => {
+    button.setAttribute("aria-controls", "member-details");
     button.addEventListener("click", () => {
       showMember(button.dataset.memberIndex);
     });
