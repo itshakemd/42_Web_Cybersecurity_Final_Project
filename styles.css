@@ -50,6 +50,12 @@ a:hover {
   background: #101010;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #f4f4f4;
+  outline-offset: 3px;
+}
+
 section {
   margin-top: 76px;
   padding-top: 28px;
@@ -83,6 +89,10 @@ h2 {
   font-size: inherit;
   font-weight: normal;
   transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.vulnerability-card:active {
+  transform: translateY(-1px);
 }
 
 .vulnerability-card:hover {
