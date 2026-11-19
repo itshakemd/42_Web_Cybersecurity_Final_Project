@@ -13,6 +13,16 @@
       <a class="back-link" href="../index.html#vulnerabilities">← All vulnerabilities</a>
       <p class="label">LAB 01</p>
       <h1>Clickjacking</h1>
+      <section class="vulnerability-info" aria-labelledby="what-is-it">
+        <div>
+          <h2 id="what-is-it">What it is</h2>
+          <p>Clickjacking tricks someone into clicking a hidden or disguised control on a page they trust. The unexpected click can trigger an action the person did not intend.</p>
+        </div>
+        <div class="classification">
+          <p><strong>OWASP Top 10: 2021</strong><br>A05: Security Misconfiguration</p>
+          <p><strong>CWE-1021</strong><br>Improper Restriction of Rendered UI Layers or Frames</p>
+        </div>
+      </section>
       <div class="comparison">
         <section class="demo-area" aria-labelledby="vulnerable-title">
           <div class="demo-header">
@@ -29,6 +39,12 @@
           <iframe src="fixed/index.html" title="Clickjacking fixed demo" sandbox="allow-scripts"></iframe>
         </section>
       </div>
+      <section class="fix-snapshot-area" aria-labelledby="fix-snapshot-title">
+        <h2 id="fix-snapshot-title">Fix snapshot</h2>
+        <figure class="fix-snapshot">
+          <pre class="fix-code"><code class="language-http"></code></pre>
+        </figure>
+      </section>
     </main>
   </body>
 </html>
