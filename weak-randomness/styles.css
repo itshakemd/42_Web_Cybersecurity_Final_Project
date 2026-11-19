@@ -38,10 +38,70 @@ h1 {
   color: #bbb;
 }
 
+.vulnerability-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.7fr);
+  gap: 24px;
+  margin: 28px 0;
+  padding: 20px;
+  border: 1px solid #383838;
+  background: #171717;
+}
+
+.vulnerability-info h2,
+.fix-snapshot-area > h2 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.vulnerability-info p {
+  margin: 0;
+  color: #bbb;
+  line-height: 1.6;
+}
+
+.classification {
+  display: grid;
+  align-content: center;
+  gap: 14px;
+  padding-left: 20px;
+  border-left: 1px solid #383838;
+}
+
+.classification strong {
+  color: #f4f4f4;
+}
+
 .comparison {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
+}
+
+.fix-snapshot-area {
+  margin-top: 32px;
+}
+
+.fix-snapshot {
+  margin: 0;
+}
+
+.fix-code {
+  overflow-x: auto;
+  margin: 0;
+  min-height: 180px;
+  padding: 20px;
+  border: 1px solid #383838;
+  border-left: 3px solid #aaa;
+  background: #0b0b0b;
+  color: #e4e4e4;
+  font: 14px/1.7 Consolas, "Courier New", monospace;
+}
+
+.fix-snapshot figcaption {
+  margin-top: 8px;
+  color: #999;
+  font-size: 13px;
 }
 
 .demo-area {
@@ -98,6 +158,16 @@ iframe {
   .demo-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .vulnerability-info {
+    grid-template-columns: 1fr;
+  }
+
+  .classification {
+    padding: 16px 0 0;
+    border-top: 1px solid #383838;
+    border-left: 0;
   }
 
   iframe {
