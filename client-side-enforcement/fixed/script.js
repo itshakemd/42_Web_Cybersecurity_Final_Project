@@ -1,1 +1,0 @@
-document.body.dataset.status = "server-authorization-required";
