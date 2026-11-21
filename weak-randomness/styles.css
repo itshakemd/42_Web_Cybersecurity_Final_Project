@@ -1,5 +1,14 @@
+
+/* ==========================================
+   Global
+========================================== */
+
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -15,10 +24,21 @@ a {
   color: #ccc;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #f4f4f4;
+  outline-offset: 3px;
+}
+
 .back-link {
   display: inline-block;
   margin-bottom: 36px;
   text-decoration: none;
+  font-size: 14px;
+}
+
+.back-link:hover {
+  color: #fff;
 }
 
 .label {
@@ -28,36 +48,42 @@ a {
 }
 
 h1 {
-  margin: 12px 0;
+  margin: 12px 0 30px;
   font-size: clamp(36px, 7vw, 56px);
   text-align: center;
 }
 
-.intro {
-  margin-bottom: 32px;
-  color: #bbb;
+h2 {
+  font-size: 20px;
 }
+
+h3 {
+  font-size: 17px;
+}
+
+/* ==========================================
+   Vulnerability Overview
+========================================== */
 
 .vulnerability-info {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 0.7fr);
   gap: 24px;
-  margin: 28px 0;
+  margin: 28px 0 36px;
   padding: 20px;
   border: 1px solid #383838;
   background: #171717;
 }
 
-.vulnerability-info h2,
-.fix-snapshot-area > h2 {
+.vulnerability-info h2 {
   margin: 0 0 12px;
-  font-size: 20px;
 }
 
 .vulnerability-info p {
   margin: 0;
   color: #bbb;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.8;
 }
 
 .classification {
@@ -72,18 +98,228 @@ h1 {
   color: #f4f4f4;
 }
 
-.comparison {
+/* ==========================================
+   Section Headings
+========================================== */
+
+.section-heading {
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  margin: 0 0 10px;
+}
+
+.section-heading p {
+  max-width: 850px;
+  margin: 0;
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.demos-section,
+.comparison-section,
+.fix-snapshot-area,
+.mitre-section,
+.resources-section {
+  margin-top: 40px;
+}
+
+/* ==========================================
+   Demo Cards
+========================================== */
+
+.demo-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
-.fix-snapshot-area {
-  margin-top: 32px;
+.demo-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #383838;
+  background: #171717;
 }
+
+.demo-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.demo-number {
+  color: #999;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.status {
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.vulnerable-status {
+  border: 1px solid #9e4545;
+  color: #ff9999;
+}
+
+.fixed-status {
+  border: 1px solid #397a55;
+  color: #80d5a0;
+}
+
+.demo-card h3 {
+  margin: 22px 0 12px;
+  font-size: 22px;
+}
+
+.demo-description {
+  min-height: 68px;
+  margin: 0;
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.demo-details {
+  margin: 20px 0 26px;
+  padding-top: 16px;
+  border-top: 1px solid #383838;
+}
+
+.demo-details p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 13px;
+  color: #ccc;
+  font-size: 13px;
+}
+
+.detail-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+.vulnerable-dot {
+  background: #ff9999;
+}
+
+.fixed-dot {
+  background: #80d5a0;
+}
+
+.demo-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding: 14px 16px;
+  border: 1px solid #555;
+  color: #f4f4f4;
+  background: #242424;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.demo-button:hover {
+  border-color: #aaa;
+  background: #303030;
+}
+
+/* ==========================================
+   Security Comparison
+========================================== */
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid #383838;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 15px 17px;
+  border-bottom: 1px solid #333;
+  text-align: left;
+  line-height: 1.5;
+}
+
+th {
+  color: #f4f4f4;
+  background: #202020;
+}
+
+td {
+  color: #bbb;
+  background: #171717;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+td:first-child {
+  color: #f4f4f4;
+  font-weight: bold;
+}
+
+.section-note {
+  margin: 14px 0 0;
+  color: #888;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ==========================================
+   Fix Snapshot
+========================================== */
 
 .fix-snapshot {
   margin: 0;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1px solid #383838;
+  border-bottom: 0;
+  background: #202020;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.code-header button {
+  padding: 7px 12px;
+  border: 1px solid #555;
+  background: #292929;
+  color: #f4f4f4;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.code-header button:hover {
+  background: #383838;
 }
 
 .fix-code {
@@ -95,69 +331,165 @@ h1 {
   border-left: 3px solid #aaa;
   background: #0b0b0b;
   color: #e4e4e4;
-  font: 14px/1.7 Consolas, "Courier New", monospace;
+  font: 13px/1.8 Consolas, "Courier New", monospace;
 }
 
-.fix-snapshot figcaption {
-  margin-top: 8px;
-  color: #999;
-  font-size: 13px;
+.copy-message {
+  min-height: 18px;
+  margin: 10px 0;
+  color: #80d5a0;
+  font-size: 12px;
 }
 
-.demo-area {
-  padding: 16px;
+.security-note {
+  margin-top: 20px;
+  padding: 20px;
   border: 1px solid #383838;
   background: #171717;
 }
 
-.demo-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
+.security-note h3 {
+  margin: 0 0 10px;
 }
 
-.demo-area h2 {
+.security-note p {
   margin: 0;
-  font-size: 18px;
+  color: #bbb;
+  font-size: 14px;
+  line-height: 1.8;
 }
 
-iframe {
-  display: block;
-  width: 100%;
-  min-height: 340px;
+/* ==========================================
+   MITRE ATT&CK
+========================================== */
+
+.reference-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.reference-card {
+  padding: 20px;
   border: 1px solid #383838;
-  background: #101010;
+  background: #171717;
 }
 
-.open-demo {
-  display: inline-block;
-  padding: 0;
-  border: 0;
+.reference-label {
+  color: #999;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.reference-card h3 {
+  margin: 14px 0 12px;
+}
+
+.reference-card p {
+  min-height: 90px;
+  margin: 0 0 18px;
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.reference-card a {
   color: #f4f4f4;
-  background: transparent;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: bold;
-  white-space: nowrap;
   text-decoration: none;
 }
 
-.open-demo:hover {
-  color: #aaa;
-  background: transparent;
+.reference-card a:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
-@media (max-width: 560px) {
-  body {
-    padding: 32px 16px;
-  }
+/* ==========================================
+   Resources
+========================================== */
 
-  .demo-header {
-    align-items: flex-start;
-    flex-direction: column;
+.resources-list {
+  border: 1px solid #383838;
+  background: #171717;
+}
+
+.resources-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 17px 20px;
+  border-bottom: 1px solid #383838;
+  color: #f4f4f4;
+  text-decoration: none;
+}
+
+.resources-list a:last-child {
+  border-bottom: 0;
+}
+
+.resources-list a:hover {
+  background: #222;
+}
+
+.resources-list a > span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.resources-list strong {
+  font-size: 14px;
+}
+
+.resources-list small {
+  color: #999;
+  font-size: 12px;
+}
+
+.resources-list a > span:last-child {
+  color: #aaa;
+}
+
+/* ==========================================
+   Footer
+========================================== */
+
+.page-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 22px;
+  border-top: 1px solid #383838;
+}
+
+.page-footer span {
+  color: #888;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.page-footer a {
+  color: #bbb;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.page-footer a:hover {
+  color: #fff;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media (max-width: 760px) {
+  .demo-grid,
+  .reference-grid {
+    grid-template-columns: 1fr;
   }
 
   .vulnerability-info {
@@ -170,7 +502,42 @@ iframe {
     border-left: 0;
   }
 
-  iframe {
-    min-height: 280px;
+  .demo-description,
+  .reference-card p {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  body {
+    padding: 32px 16px;
+  }
+
+  .demo-card,
+  .reference-card {
+    padding: 16px;
+  }
+
+  .demo-card h3 {
+    font-size: 19px;
+  }
+
+  .page-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  th,
+  td {
+    padding: 12px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
