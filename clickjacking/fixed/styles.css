@@ -1,3 +1,8 @@
+/* ==========================================================
+   styles.css - shared stylesheet for the clickjacking demo
+   Sections are grouped by which page(s) use them.
+   ========================================================== */
+
 /* ---------- base ---------- */
 body {
   font-family: Arial, sans-serif;
