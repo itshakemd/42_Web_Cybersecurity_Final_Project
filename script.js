@@ -2,7 +2,7 @@ const teamMembers = [
   { name: "itshakemd", bio: "Bio", image: "https://github.com/itshakemd.png?size=240", github: "https://github.com/itshakemd", linkedin: "https://www.linkedin.com/in/itshakemd" },
   { name: "Yahia Abuawwad", bio: "Bio", image: "", github: "", linkedin: "https://www.linkedin.com/in/yahia-abuawwad-45a577200/" },
   { name: "Tala", bio: "Bio", image: "https://github.com/Tala-sh.png?size=240", github: "https://github.com/Tala-sh", linkedin: "https://www.linkedin.com/in/tala-sharayre%F0%9F%87%AF%F0%9F%87%B4-45782a2a0/" },
-  { name: "Makel", bio: "Bio", image: "https://github.com/malekelyan77-debug.png?size=240", github: "https://github.com/malekelyan77-debug", linkedin: "https://www.linkedin.com/in/malek-aliyan-2a8925333" },
+  { name: "Malek", bio: "Bio", image: "https://github.com/malekelyan77-debug.png?size=240", github: "https://github.com/malekelyan77-debug", linkedin: "https://www.linkedin.com/in/malek-aliyan-2a8925333" },
   { name: "Laith", bio: "Bio", image: "https://github.com/Laith-Elsalah.png?size=240", github: "https://github.com/Laith-Elsalah", linkedin: "https://www.linkedin.com/in/laithahmadelsalahjo/com" },
 ];
 
