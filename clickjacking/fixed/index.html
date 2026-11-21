@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+  "PATCHED" VERSION - NOTES
+
+  Real clickjacking protection (X-Frame-Options and CSP frame-ancestors)
+  MUST be sent as HTTP response headers - they cannot be reliably set via
+  a <meta> tag. That's why this file is paired with secure-server.js, which
+  serves it WITH the correct headers attached. Run that server and try to
+  frame THIS page from the attack-*.html files - it should refuse to load.
+
+  Also includes a legacy JS "frame-busting" script as defense in depth
+  (not sufficient alone - bypassable via the iframe "sandbox" attribute).
+
+  Theme: fictional e-commerce shop account page (patched version).
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ShopEase - My Account (Patched)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="site-page">
+<div class="card">
+  <span class="badge">Protected by X-Frame-Options + CSP (via server headers)</span>
+  <h2>Welcome back, Malek</h2>
+  <button id="orderBtn">Place Order (1-Click Checkout)</button>
+  <button id="deleteBtn">Delete My Account</button>
+  <button id="subscribeBtn">Subscribe to Premium Membership ($9.99/mo)</button>
+</div>
+
+<script>
+  if (window.top !== window.self) {
+    document.body.innerHTML =
+      "<h2 style='text-align:center;margin-top:100px;color:#c62828;'>" +
+      "This page cannot be displayed in a frame.</h2>";
+  }
+</script>
+</body>
+</html>
