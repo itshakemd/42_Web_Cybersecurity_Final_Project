@@ -1,50 +1,72 @@
-<!doctype html>
+<!DOCTYPE html>
+<!--
+  PROJECT DASHBOARD
+  Ties the whole project together on one page: a short explanation, the
+  OWASP/CWE references, live previews of the vulnerable and fixed pages
+  side by side, and a snapshot of the actual fix code.
+
+  Note: the "Fixed" iframe below will show a blocked message even when you
+  just open this file directly (file://), because mitigated-site.html's own
+  JS frame-buster (`if (window.top !== window.self)`) detects that it's
+  inside a frame and clears itself - regardless of HTTP headers. The real
+  header-based protection (X-Frame-Options / CSP) only kicks in when served
+  via secure-server.js (see README.md).
+-->
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A clickjacking vulnerable and fixed demonstration.">
-    <title>Clickjacking — 42 Web Security Project</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <main>
-      <a class="back-link" href="../index.html#vulnerabilities">← All vulnerabilities</a>
-      <p class="label">LAB 01</p>
-      <h1>Clickjacking</h1>
-      <section class="vulnerability-info" aria-labelledby="what-is-it">
-        <div>
-          <h2 id="what-is-it">What it is</h2>
-          <p>Clickjacking tricks someone into clicking a hidden or disguised control on a page they trust. The unexpected click can trigger an action the person did not intend.</p>
-        </div>
-        <div class="classification">
-          <p><strong>OWASP Top 10: 2021</strong><br>A05: Security Misconfiguration</p>
-          <p><strong>CWE-1021</strong><br>Improper Restriction of Rendered UI Layers or Frames</p>
-        </div>
-      </section>
-      <div class="comparison">
-        <section class="demo-area" aria-labelledby="vulnerable-title">
-          <div class="demo-header">
-            <h2 id="vulnerable-title">Vulnerable</h2>
-            <a class="open-demo" href="vulnerable/index.html" target="_blank" rel="noopener noreferrer">Open vulnerable page ↗</a>
-          </div>
-          <iframe src="vulnerable/index.html" title="Clickjacking vulnerable demo" sandbox="allow-scripts"></iframe>
-        </section>
-        <section class="demo-area" aria-labelledby="fixed-title">
-          <div class="demo-header">
-            <h2 id="fixed-title">Fixed</h2>
-            <a class="open-demo" href="fixed/index.html" target="_blank" rel="noopener noreferrer">Open fixed page ↗</a>
-          </div>
-          <iframe src="fixed/index.html" title="Clickjacking fixed demo" sandbox="allow-scripts"></iframe>
-        </section>
-      </div>
-      <section class="fix-snapshot-area" aria-labelledby="fix-snapshot-title">
-        <h2 id="fix-snapshot-title">Fix snapshot</h2>
-        <figure class="fix-snapshot">
-          <pre class="fix-code"><code class="language-http"></code></pre>
-        </figure>
-      </section>
-    </main>
-  </body>
+<head>
+<meta charset="UTF-8">
+<title>Clickjacking - Project Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-page">
+  <h1 class="dashboard-title">Clickjacking</h1>
+
+  <div class="dashboard-row">
+    <div class="dashboard-card">
+      <h3>What it is</h3>
+      <p>Clickjacking tricks someone into clicking a hidden or disguised control on a page they trust. The unexpected click can trigger an action the person did not intend.</p>
+    </div>
+    <div class="dashboard-card">
+      <div class="dashboard-tag"><strong>OWASP Top 10: 2021</strong><br>A05: Security Misconfiguration</div>
+      <div class="dashboard-tag"><strong>CWE-1021</strong><br>Improper Restriction of Rendered UI Layers or Frames</div>
+    </div>
+  </div>
+
+  <div class="dashboard-panel">
+    <div class="dashboard-panel-header">
+      <span class="label-vulnerable">Vulnerable</span>
+      <a href="vulnerable.html" target="_blank">Open vulnerable page ↗</a>
+    </div>
+    <div class="dashboard-frame-box">
+      <iframe src="vulnerable.html"></iframe>
+    </div>
+  </div>
+
+  <div class="dashboard-panel">
+    <div class="dashboard-panel-header">
+      <span class="label-fixed">Fixed</span>
+      <a href="mitigated-site.html" target="_blank">Open fixed page ↗</a>
+    </div>
+    <div class="dashboard-frame-box">
+      <iframe src="mitigated-site.html"></iframe>
+    </div>
+  </div>
+
+  <div class="dashboard-panel">
+    <div class="dashboard-panel-header">
+      <span>Fix snapshot</span>
+    </div>
+    <pre class="dashboard-code"><code>// secure-server.js - the real fix (HTTP response headers)
+if (filePath.endsWith('mitigated-site.html')) {
+  headers['X-Frame-Options'] = 'DENY';
+  headers['Content-Security-Policy'] = "frame-ancestors 'none'";
+}
+
+// mitigated-site.html - defense in depth (JS frame-buster, not sufficient alone)
+if (window.top !== window.self) {
+  document.body.innerHTML =
+    "This page cannot be displayed in a frame.";
+}</code></pre>
+  </div>
+</body>
 </html>

@@ -1,0 +1,321 @@
+/* ---------- base ---------- */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* ---------- alignment-test.html - per-payload opacity controls ----------
+   Each payload has its OWN variable, so you can raise/lower one to check
+   its alignment without touching the other. Valid range is 0 to 1 only -
+   anything higher just clamps to 1 (fully solid/visible). */
+:root {
+  --classic-opacity: 0; /* Payload 1 - "Claim Your Prize Now" decoy */
+  --wheel-opacity: 0;    /* Payload 2 - spin-wheel decoy */
+}
+
+/* ---------- vulnerable-site.html / mitigated-site.html ---------- */
+body.site-page {
+  background: #f4f6f8;
+  padding: 30px;
+}
+.card {
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+  padding: 24px;
+}
+.card h2 {
+  color: #1a237e;
+  margin-top: 0;
+}
+.balance {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2e7d32;
+  margin: 10px 0 20px;
+}
+.badge {
+  display: inline-block;
+  background: #2e7d32;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+.card button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #fff;
+}
+#orderBtn     { background: #d32f2f; }
+#deleteBtn    { background: #616161; }
+#subscribeBtn { background: #1565c0; }
+#log {
+  margin-top: 16px;
+  font-size: 13px;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+/* ---------- attack-classic-overlay.html ---------- */
+body.attack-classic {
+  text-align: center;
+  padding-top: 60px;
+  background: linear-gradient(135deg,#ffecd2,#fcb69f);
+}
+body.attack-classic h1 { color: #b71c1c; }
+.decoy-btn {
+  position: relative;
+  z-index: 1;
+  padding: 18px 36px;
+  font-size: 20px;
+  font-weight: bold;
+  background: #ffca28;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,.3);
+}
+.iframe-overlay-classic {
+  position: absolute;
+  /* Verified working offset (confirmed via DevTools + Console listener):
+     at this top value, the invisible iframe's real "Delete My Account"
+     button lines up under the decoy button. Re-tune with the same method
+     (raise opacity, compare positions, adjust a few px at a time) if you
+     change the page layout or want to target a different button. */
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 400px;
+  opacity: 0;
+  z-index: 2;
+  border: none;
+}
+.demo-note {
+  margin-top: 420px;
+  color: #555;
+  font-size: 13px;
+}
+
+/* ---------- attack-spin-wheel.html ---------- */
+.wheel-wrap {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 30px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wheel {
+  position: relative; /* anchor point for the .wheel-label children */
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,.3);
+  background: conic-gradient(
+    #ef5350 0deg 60deg,
+    #ffca28 60deg 120deg,
+    #66bb6a 120deg 180deg,
+    #42a5f5 180deg 240deg,
+    #ab47bc 240deg 300deg,
+    #ff7043 300deg 360deg
+  );
+  /* duration here MUST match the setTimeout() delay in the <script> block */
+  transition: transform 2.4s cubic-bezier(0.17, 0.67, 0.21, 1);
+}
+.wheel-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  /* no margin-left here - the inline transform's translate(-50%, -50%)
+     already centers the box on (top:50%, left:50%); adding a margin too
+     would double the horizontal offset. */
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.6);
+  pointer-events: none; /* purely decorative - never intercepts the click */
+}
+.wheel-pointer {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 16px solid #333;
+  z-index: 2; /* sits above the wheel graphic, doesn't block the center button */
+}
+.wheel-center-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 14px;
+  background: #fff;
+  color: #b71c1c;
+  border: 3px solid #b71c1c;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  z-index: 1;
+}
+.wheel-center-btn:disabled {
+  opacity: 1; /* keep fully visible even while "spinning" (disabled) */
+  color: #b71c1c;
+  cursor: default;
+}
+
+/* ---------- alignment-test.html ---------- */
+.target-wrap {
+  position: relative; /* anchor for the decoy's inset:0 overlay below */
+}
+.decoy-overlay {
+  position: absolute;
+  inset: 0;           /* stretches to exactly cover the real button's box -
+                         this is what removes all the manual pixel-tuning */
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+.payload-classic {
+  background: #ffca28;
+  color: #000;
+  opacity: var(--classic-opacity);
+}
+.payload-wheel {
+  background: #fff3e0;
+  color: #b71c1c;
+  opacity: var(--wheel-opacity);
+}
+.wheel-decor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 260px;
+  height: 260px;
+  pointer-events: none; /* purely decorative - clicks pass straight through
+                            to .decoy-overlay (or the real button) below it */
+  opacity: var(--wheel-opacity);
+  z-index: 4;
+}
+
+/* ---------- index.html (project dashboard) ---------- */
+body.dashboard-page {
+  background: #0d1117;
+  color: #c9d1d9;
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.dashboard-title {
+  text-align: center;
+  font-size: 34px;
+  margin: 10px 0 24px;
+  color: #fff;
+}
+.dashboard-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.dashboard-card {
+  flex: 1;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.dashboard-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #f0883e;
+  font-size: 14px;
+}
+.dashboard-card p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8b949e;
+  margin: 0;
+}
+.dashboard-tag {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.dashboard-tag:last-child { margin-bottom: 0; }
+.dashboard-tag strong {
+  color: #58a6ff;
+}
+.dashboard-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.dashboard-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.label-vulnerable { color: #f85149; }
+.label-fixed { color: #3fb950; }
+.dashboard-panel-header a {
+  color: #58a6ff;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 13px;
+}
+.dashboard-panel-header a:hover { text-decoration: underline; }
+.dashboard-frame-box {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 260px;
+}
+.dashboard-frame-box iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.dashboard-code {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: "Courier New", monospace;
+  font-size: 12.5px;
+  color: #c9d1d9;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+}
