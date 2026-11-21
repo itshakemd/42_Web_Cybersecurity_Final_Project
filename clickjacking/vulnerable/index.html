@@ -1,112 +1,72 @@
 <!DOCTYPE html>
+<!--
+  PROJECT DASHBOARD
+  Ties the whole project together on one page: a short explanation, the
+  OWASP/CWE references, live previews of the vulnerable and fixed pages
+  side by side, and a snapshot of the actual fix code.
+
+  Note: the "Fixed" iframe below will show a blocked message even when you
+  just open this file directly (file://), because mitigated-site.html's own
+  JS frame-buster (`if (window.top !== window.self)`) detects that it's
+  inside a frame and clears itself - regardless of HTTP headers. The real
+  header-based protection (X-Frame-Options / CSP) only kicks in when served
+  via secure-server.js (see README.md).
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>vulnerable ShopEase</title>
+<title>Clickjacking - Project Dashboard</title>
 <link rel="stylesheet" href="styles.css">
 </head>
-<body class="site-page">
-<div class="card">
-  <h2>Welcome back, Malek</h2>
-  <div class="balance">Cart total: $249.99</div>
+<body class="dashboard-page">
+  <h1 class="dashboard-title">Clickjacking</h1>
 
-  <!-- Real button 1 + Payload 1 (classic overlay) decoy on top of it -->
-  <div class="target-wrap">
-    <button id="orderBtn">Place Order (1-Click Checkout)</button>
-    <button class="decoy-overlay payload-classic" id="decoyClassic">Claim Your Prize Now</button>
-  </div>
-
-  <!-- Real button 2 + Payload 2 (spin wheel) decoy on top of it -->
-  <div class="target-wrap">
-    <button id="deleteBtn">Delete My Account</button>
-
-    <div class="wheel-decor">
-      <div class="wheel-pointer"></div>
-      <div class="wheel" id="wheel">
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(30deg)  translateY(-95px) rotate(-30deg);">$1000</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(90deg)  translateY(-95px) rotate(-90deg);">$50</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(150deg) translateY(-95px) rotate(-150deg);">FREE</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(210deg) translateY(-95px) rotate(-210deg);">$500</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(270deg) translateY(-95px) rotate(-270deg);">$0</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(330deg) translateY(-95px) rotate(-330deg);">$2000</span>
-      </div>
+  <div class="dashboard-row">
+    <div class="dashboard-card">
+      <h3>What it is</h3>
+      <p>Clickjacking tricks someone into clicking a hidden or disguised control on a page they trust. The unexpected click can trigger an action the person did not intend.</p>
     </div>
-    <button class="decoy-overlay payload-wheel" id="decoyWheel">SPIN</button>
+    <div class="dashboard-card">
+      <div class="dashboard-tag"><strong>OWASP Top 10: 2021</strong><br>A05: Security Misconfiguration</div>
+      <div class="dashboard-tag"><strong>CWE-1021</strong><br>Improper Restriction of Rendered UI Layers or Frames</div>
+    </div>
   </div>
 
-  <!-- Real button 3 - no decoy assigned to it in this demo -->
-  <button id="subscribeBtn">Subscribe to Premium Membership ($9.99/mo)</button>
+  <div class="dashboard-panel">
+    <div class="dashboard-panel-header">
+      <span class="label-vulnerable">Vulnerable</span>
+      <a href="vulnerable.html" target="_blank">Open vulnerable page ↗</a>
+    </div>
+    <div class="dashboard-frame-box">
+      <iframe src="vulnerable.html"></iframe>
+    </div>
+  </div>
 
-  <div id="log"></div>
-</div>
+  <div class="dashboard-panel">
+    <div class="dashboard-panel-header">
+      <span class="label-fixed">Fixed</span>
+      <a href="mitigated-site.html" target="_blank">Open fixed page ↗</a>
+    </div>
+    <div class="dashboard-frame-box">
+      <iframe src="mitigated-site.html"></iframe>
+    </div>
+  </div>
 
-<p class="demo-note">
-  (Tune each payload's own opacity independently in styles.css:
-  --classic-opacity for the yellow prize button, --wheel-opacity for the
-  spin wheel. Raise one temporarily to 0.3-0.5 to check its alignment,
-  then set it back to 0 - the other payload is unaffected.)
-</p>
+  <div class="dashboard-panel">
+    <div class="dashboard-panel-header">
+      <span>Fix snapshot</span>
+    </div>
+    <pre class="dashboard-code"><code>// secure-server.js - the real fix (HTTP response headers)
+if (filePath.endsWith('mitigated-site.html')) {
+  headers['X-Frame-Options'] = 'DENY';
+  headers['Content-Security-Policy'] = "frame-ancestors 'none'";
+}
 
-<script>
-  function log(msg) {
-    document.getElementById('log').textContent += msg + "\n";
-    console.log('[ACTION]', msg);
-  }
-
-  document.getElementById('orderBtn').addEventListener('click', () => {
-    log('[EXECUTED] Order placed for $249.99.');
-  });
-  document.getElementById('deleteBtn').addEventListener('click', () => {
-    log('[EXECUTED] Account deletion requested for logged-in user.');
-  });
-  document.getElementById('subscribeBtn').addEventListener('click', () => {
-    log('[EXECUTED] Premium membership subscription started ($9.99/mo).');
-  });
-  document.querySelectorAll('.target-wrap').forEach((wrap) => {
-    wrap.addEventListener('click', () => {
-      const realBtn = wrap.querySelector('button:not(.decoy-overlay)');
-      if (realBtn) realBtn.click();
-    });
-  });
-
-  // ---- Spin-wheel-specific visual behavior (on top of the generic
-  // delegation above, which already fires the hidden Delete action) ----
-  const wheel = document.getElementById('wheel');
-  const decoyWheel = document.getElementById('decoyWheel');
-  const wheelWrap = decoyWheel.closest('.target-wrap');
-  let step = 1;
-  let currentRotation = 0;
-
-  const prizes = [
-    { label: '$1000', centerDeg: 30  },
-    { label: '$50',   centerDeg: 90  },
-    { label: 'FREE',  centerDeg: 150 },
-    { label: '$500',  centerDeg: 210 },
-    { label: '$0',    centerDeg: 270 },
-    { label: '$2000', centerDeg: 330 },
-  ];
-
-  function spinWheel() {
-    const target = prizes[Math.floor(Math.random() * prizes.length)];
-    const extraSpins = 1440;
-    const delta = (360 - target.centerDeg) % 360;
-    currentRotation += extraSpins + delta;
-    wheel.style.transform = `rotate(${currentRotation}deg)`;
-    return target;
-  }
-
-  wheelWrap.addEventListener('click', () => {
-    if (step === 1) {
-      const won = spinWheel();
-      decoyWheel.textContent = '...';
-      setTimeout(() => {
-        decoyWheel.textContent = `🎉 CLAIM YOUR ${won.label} 🎉`;
-        step = 2;
-      }, 2500); // keep in sync with the CSS transition duration in styles.css
-    } else {
-      decoyWheel.textContent = 'Thanks for playing!';
-    }
-  });
-</script>
+// mitigated-site.html - defense in depth (JS frame-buster, not sufficient alone)
+if (window.top !== window.self) {
+  document.body.innerHTML =
+    "This page cannot be displayed in a frame.";
+}</code></pre>
+  </div>
 </body>
 </html>
