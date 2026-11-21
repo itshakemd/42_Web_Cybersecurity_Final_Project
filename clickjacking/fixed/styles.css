@@ -1,14 +1,13 @@
-/* ==========================================================
-   styles.css - shared stylesheet for the clickjacking demo
-   Sections are grouped by which page(s) use them.
-   ========================================================== */
-
 /* ---------- base ---------- */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
 }
 
+/* ---------- alignment-test.html - per-payload opacity controls ----------
+   Each payload has its OWN variable, so you can raise/lower one to check
+   its alignment without touching the other. Valid range is 0 to 1 only -
+   anything higher just clamps to 1 (fully solid/visible). */
 :root {
   --classic-opacity: 0; /* Payload 1 - "Claim Your Prize Now" decoy */
   --wheel-opacity: 0;    /* Payload 2 - spin-wheel decoy */
@@ -177,7 +176,7 @@ body.attack-classic h1 { color: #b71c1c; }
   color: #b71c1c;
   border: 3px solid #b71c1c;
   box-shadow: 0 2px 8px rgba(0,0,0,.25);
-  z-index: 2;
+  z-index: 1;
 }
 .wheel-center-btn:disabled {
   opacity: 1; /* keep fully visible even while "spinning" (disabled) */
@@ -223,4 +222,100 @@ body.attack-classic h1 { color: #b71c1c; }
                             to .decoy-overlay (or the real button) below it */
   opacity: var(--wheel-opacity);
   z-index: 4;
+}
+
+/* ---------- index.html (project dashboard) ---------- */
+body.dashboard-page {
+  background: #0d1117;
+  color: #c9d1d9;
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.dashboard-title {
+  text-align: center;
+  font-size: 34px;
+  margin: 10px 0 24px;
+  color: #fff;
+}
+.dashboard-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.dashboard-card {
+  flex: 1;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.dashboard-card h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #f0883e;
+  font-size: 14px;
+}
+.dashboard-card p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #8b949e;
+  margin: 0;
+}
+.dashboard-tag {
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+.dashboard-tag:last-child { margin-bottom: 0; }
+.dashboard-tag strong {
+  color: #58a6ff;
+}
+.dashboard-panel {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+.dashboard-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.label-vulnerable { color: #f85149; }
+.label-fixed { color: #3fb950; }
+.dashboard-panel-header a {
+  color: #58a6ff;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 13px;
+}
+.dashboard-panel-header a:hover { text-decoration: underline; }
+.dashboard-frame-box {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 260px;
+}
+.dashboard-frame-box iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.dashboard-code {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 14px;
+  font-family: "Courier New", monospace;
+  font-size: 12.5px;
+  color: #c9d1d9;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
 }
