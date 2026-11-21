@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+  VULNERABLE TARGET SITE (for educational / lab use only)
+  - No X-Frame-Options header
+  - No Content-Security-Policy: frame-ancestors directive
+  - Simulates a logged-in session via localStorage (stand-in for a session cookie)
+  Theme: fictional e-commerce shop account page.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ShopEase - My Account</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="site-page">
+<div class="card">
+  <h2>Welcome back, Malek</h2>
+  <div class="balance">Cart total: $249.99</div>
+
+  <button id="orderBtn">Place Order (1-Click Checkout)</button>
+  <button id="deleteBtn">Delete My Account</button>
+  <button id="subscribeBtn">Subscribe to Premium Membership ($9.99/mo)</button>
+
+  <div id="log"></div>
+</div>
+
+<script src="vulnerable-site.js"></script>
+</body>
+</html>
