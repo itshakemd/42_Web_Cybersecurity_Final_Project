@@ -1,8 +1,12 @@
-/* ---------- base ---------- */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
 }
+
+/* ---------- alignment-test.html - per-payload opacity controls ----------
+   Each payload has its OWN variable, so you can raise/lower one to check
+   its alignment without touching the other. Valid range is 0 to 1 only -
+   anything higher just clamps to 1 (fully solid/visible). */
 :root {
   --classic-opacity: 0; /* Payload 1 - "Claim Your Prize Now" decoy */
   --wheel-opacity: 0;    /* Payload 2 - spin-wheel decoy */
@@ -65,7 +69,7 @@ body.site-page {
 body.attack-classic {
   text-align: center;
   padding-top: 60px;
-  background: linear-gradient(135deg,#ffecd2,#fcb69f);
+  background: linear-gradient(135deg,#f6f5f4,#fcfbfb);
 }
 body.attack-classic h1 { color: #b71c1c; }
 .decoy-btn {
@@ -87,7 +91,7 @@ body.attack-classic h1 { color: #b71c1c; }
      button lines up under the decoy button. Re-tune with the same method
      (raise opacity, compare positions, adjust a few px at a time) if you
      change the page layout or want to target a different button. */
-  top: 90px;
+  top: -22px;
   left: 50%;
   transform: translateX(-50%);
   width: 480px;

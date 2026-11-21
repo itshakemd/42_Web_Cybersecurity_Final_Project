@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>You Won a Prize!</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="attack-classic">
+  <h1>🎉 Congratulations! 🎉</h1>
+  <p>You've been selected for a free $100 gift card.</p>
+  <button class="decoy-btn">Claim Your Prize Now</button>
+
+  <!-- Hidden victim page overlaid on top of the decoy button -->
+  <iframe class="iframe-overlay-classic" src="vulnerable-site.html"></iframe>
+
+  <p class="demo-note">
+    (Demo note: temporarily raise the iframe's opacity in styles.css to see the
+    alignment while testing/screenshotting, then set it back to 0.)
+  </p>
+
+<script src="attack-classic-overlay.js"></script>
+</body>
+</html>
