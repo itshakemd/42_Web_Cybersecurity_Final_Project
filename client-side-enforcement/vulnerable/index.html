@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="lab-container">
+      <h2>Lab: Client-Side Enforcement of Server-Side Security</h2>
+      <div>
+          <h2 id="what-is-it">What it is</h2>
+          <p>Client-Side Enforcement happens when a website relies on the browser to control user permissions instead of the server.
+             An attacker can modify client-side data to bypass these restrictions. The solution is to enforce all important permissions on the server side.</p>
+        </div>
+      
+      <!-- OWASP & CWE moved right under the vulnerability title -->
+      <div class="vuln-meta" style="margin-bottom: 15px;">
+    
+        <p style="margin: 4px 0;"><strong>OWASP Category: A01: Broken Access Control</strong> <span id="owaspCategory"></span></p>
+        <p style="margin: 4px 0;"><strong>CWE: Client-Side Enforcement of Server-Side Security</strong> <span id="cweId"></span></p>
+      </div>
+      
+      <!-- Switch mode between Vulnerable and Fixed -->
+      <div class="controls-bar">
+        <label>
+          <input type="checkbox" id="modeSwitch" onchange="toggleSecurityMode()">
+          Current Mode: <span id="modeLabel">Vulnerable (Client-Side Check)</span>
+        </label>
+        <button onclick="resetLab()">Reset Lab</button>
+      </div>
+
+      <!-- Display current user role status -->
+      <p>Current Browser Role: <span id="currentRole" style="font-weight: bold;">GUEST</span></p>
+
+      <!-- Simulated Store / Protected Resource -->
+      <div class="product-card" style="border: 1px solid #ccc; padding: 15px; margin: 10px 0;">
+        <h3>Featured Product: Database Management Tool</h3>
+        <p>Price: $0.00</p>
+        <!-- Delete button hidden by default for standard users -->
+        <button id="deleteBtn" style="display: none; background: red; color: white;" onclick="deleteProduct()">Delete Product (Admin Only)</button>
+      </div>
+
+      <!-- Payloads Section (Try It) -->
+      <div class="payloads-section" style="background: #f9f9f9; padding: 10px;">
+        <h4>Try the Payloads:</h4>
+        <button onclick="payloadChangeRole()">Payload 1: Memory Variable Tampering</button>
+        <button onclick="payloadModifyLocalStorage()">Payload 2: LocalStorage Tampering</button>
+      </div>
+
+      <!-- Output Box -->
+      <div class="output-box" style="margin-top: 15px; font-weight: bold;">
+        Status: <span id="labOutput">Logged in as Guest (Standard User)</span>
+      </div>
+
+      <!-- Lab Requirements Sections -->
+
+      <section id="the-line" class="lab-section">
+        <h3>2.vulnerability Code:</h3>
+        <pre><code id="vulnerableCodeSnapshot"></code></pre>
+        <p><strong>Vulnerable Line:</strong> <span id="vulnerableLineNumber"></span></p>
+        <p id="vulnerableLineReason"></p>
+      </section>
+
+      <section id="why-it-matters" class="lab-section">
+        <h3>4. Why It Matters</h3>
+        <p id="whyItMattersText"> Any check or restriction implemented solely on the client side (such as hiding buttons, disabling UI elements, 
+            or storing user roles in JavaScript variables or localStorage) is completely under the attacker's control. Users can easily open browser DevTools, modify variables/storage, or send direct HTTP requests to bypass UI restrictions and perform unauthorized actions (such as deleting resources or accessing restricted features).</p>
+
+            
+            <p><strong>Explain the Damage: </strong>  Because the check happens inside the browser, an attacker can easily bypass it using DevTools or by changing variables/storage, 
+            allowing regular users to perform admin actions like deleting products or accessing restricted features. <span id="damage"></span></p>
+
+             <p><strong>Real Incident: </strong> Security researchers (such as Synack Red Team) have documented web applications that verified two-factor authentication (2FA) or user permissions solely in front-end code.
+                 By intercepting and modifying a simple response value in the browser, attackers bypassed the security check entirely and gained unauthorized access to restricted features. (A classic documented example of client-side check bypass is CVE-2006-6994). <span id="realIncidentText"></span></p>
+
+      </section>
+
+       
+
+      <section id="the-fix" class="lab-section">
+        <h3>5. The Fix </h3>
+        <p><strong>The Fix: Never trust the browser. Always check the user's real role and permissions on the server before allowing sensitive actions like deleting data</strong></p>
+        <pre><code id="fixedCodeSnapshot">
+
+     
+    </div>
+</body>
+</html>
