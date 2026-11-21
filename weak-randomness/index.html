@@ -1,50 +1,311 @@
+
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A weak randomness vulnerable and fixed demonstration.">
-    <title>Weak Randomness — 42 Web Security Project</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <main>
-      <a class="back-link" href="../index.html#vulnerabilities">← All vulnerabilities</a>
-      <p class="label">LAB 02</p>
-      <h1>Weak Randomness</h1>
-      <section class="vulnerability-info" aria-labelledby="what-is-it">
-        <div>
-          <h2 id="what-is-it">What it is</h2>
-          <p>Weak randomness uses numbers that attackers may be able to predict. If these numbers protect tokens or other secrets, someone could guess them and gain access.</p>
-        </div>
-        <div class="classification">
-          <p><strong>OWASP Top 10: 2021</strong><br>A02: Cryptographic Failures</p>
-          <p><strong>CWE-338</strong><br>Use of Cryptographically Weak Pseudo-Random Number Generator</p>
-        </div>
-      </section>
-      <div class="comparison">
-        <section class="demo-area" aria-labelledby="vulnerable-title">
-          <div class="demo-header">
-            <h2 id="vulnerable-title">Vulnerable</h2>
-            <a class="open-demo" href="vulnerable/index.html" target="_blank" rel="noopener noreferrer">Open vulnerable page ↗</a>
-          </div>
-          <iframe src="vulnerable/index.html" title="Weak randomness vulnerable demo" sandbox="allow-scripts"></iframe>
-        </section>
-        <section class="demo-area" aria-labelledby="fixed-title">
-          <div class="demo-header">
-            <h2 id="fixed-title">Fixed</h2>
-            <a class="open-demo" href="fixed/index.html" target="_blank" rel="noopener noreferrer">Open fixed page ↗</a>
-          </div>
-          <iframe src="fixed/index.html" title="Weak randomness fixed demo" sandbox="allow-scripts"></iframe>
-        </section>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Weak Randomness security lab — vulnerable and fixed demonstrations.">
+  <title>Weak Randomness — 42 Web Security Project</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <a class="back-link" href="../index.html#vulnerabilities">
+      ← All vulnerabilities
+    </a>
+
+    <p class="label">LAB 02</p>
+    <h1>Weak Randomness</h1>
+
+    <!-- Vulnerability Overview -->
+    <section class="vulnerability-info" aria-labelledby="what-is-it">
+      <div>
+        <h2 id="what-is-it">What it is</h2>
+        <p>
+          Weak randomness occurs when an application generates
+          security-sensitive values using predictable algorithms.
+          If password reset tokens follow a pattern, an attacker
+          may be able to predict future tokens and bypass
+          account verification.
+        </p>
       </div>
-      <section class="fix-snapshot-area" aria-labelledby="fix-snapshot-title">
-        <h2 id="fix-snapshot-title">Fix snapshot</h2>
-        <figure class="fix-snapshot">
-          <pre class="fix-code"><code class="language-javascript"></code></pre>
-        </figure>
-      </section>
-    </main>
-  </body>
+
+      <div class="classification">
+        <p>
+          <strong>OWASP Top 10: 2021</strong>
+          <br>A02: Cryptographic Failures
+        </p>
+        <p>
+          <strong>CWE-338</strong>
+          <br>Use of Cryptographically Weak
+          Pseudo-Random Number Generator
+        </p>
+      </div>
+    </section>
+
+    <!-- Demonstrations -->
+    <section class="demos-section" aria-labelledby="demos-title">
+      <div class="section-heading">
+        <h2 id="demos-title">Live Demonstrations</h2>
+        <p>
+          Explore how predictable tokens affect account
+          verification and how secure randomness prevents
+          sequence-based prediction.
+        </p>
+      </div>
+
+      <div class="demo-grid">
+        <article class="demo-card">
+          <div class="demo-card-top">
+            <span class="demo-number">IMPLEMENTATION 01</span>
+            <span class="status vulnerable-status">VULNERABLE</span>
+          </div>
+
+          <h3>Vulnerable Version</h3>
+
+          <p class="demo-description">
+            Password reset tokens are generated using a
+            predictable global sequence shared between
+            simulated users.
+          </p>
+
+          <div class="demo-details">
+            <p><span class="detail-dot vulnerable-dot"></span>Predictable token generation</p>
+            <p><span class="detail-dot vulnerable-dot"></span>Shared generator state</p>
+            <p><span class="detail-dot vulnerable-dot"></span>Token prediction demonstration</p>
+          </div>
+
+          <a class="demo-button" href="vulnerable/index.html">
+            Open Vulnerable Demo <span aria-hidden="true">↗</span>
+          </a>
+        </article>
+
+        <article class="demo-card">
+          <div class="demo-card-top">
+            <span class="demo-number">IMPLEMENTATION 02</span>
+            <span class="status fixed-status">FIXED</span>
+          </div>
+
+          <h3>Fixed Version</h3>
+
+          <p class="demo-description">
+            Tokens are generated using cryptographically
+            secure randomness, with additional simulated
+            verification protections.
+          </p>
+
+          <div class="demo-details">
+            <p><span class="detail-dot fixed-dot"></span>Cryptographically secure randomness</p>
+            <p><span class="detail-dot fixed-dot"></span>Token expiration and one-time use</p>
+            <p><span class="detail-dot fixed-dot"></span>Limited verification attempts</p>
+          </div>
+
+          <a class="demo-button" href="fixed/index.html">
+            Open Fixed Demo <span aria-hidden="true">↗</span>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- Security Comparison -->
+    <section class="comparison-section" aria-labelledby="comparison-title">
+      <h2 id="comparison-title">Security Comparison</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Security Property</th>
+              <th>Vulnerable</th>
+              <th>Fixed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Token generation</td>
+              <td>Predictable sequence</td>
+              <td>Web Crypto API</td>
+            </tr>
+            <tr>
+              <td>Token predictability</td>
+              <td>Pattern can be identified</td>
+              <td>No predictable sequence</td>
+            </tr>
+            <tr>
+              <td>Generator state</td>
+              <td>Shared deterministic state</td>
+              <td>Secure random generation</td>
+            </tr>
+            <tr>
+              <td>Token lifetime</td>
+              <td>No expiration</td>
+              <td>2-minute expiration</td>
+            </tr>
+            <tr>
+              <td>Token reuse</td>
+              <td>No one-time-use enforcement</td>
+              <td>Consumed after verification</td>
+            </tr>
+            <tr>
+              <td>Candidate testing</td>
+              <td>Up to 20 per simulation</td>
+              <td>5 shared verification attempts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="section-note">
+        Both implementations are browser-only educational
+        simulations. Production authentication requires
+        server-side token storage and verification.
+      </p>
+    </section>
+
+    <!-- Fix Snapshot -->
+    <section class="fix-snapshot-area" aria-labelledby="fix-title">
+      <div class="section-heading">
+        <h2 id="fix-title">Fix snapshot</h2>
+        <p>
+          Replace predictable token generation with a
+          cryptographically secure random number generator.
+        </p>
+      </div>
+
+      <figure class="fix-snapshot">
+        <div class="code-header">
+          <span>JavaScript — Secure Token Generation</span>
+          <button id="copyBtn" type="button">Copy Code</button>
+        </div>
+
+        <pre class="fix-code"><code id="fixCode" class="language-javascript"></code></pre>
+      </figure>
+
+      <p id="copyMessage" class="copy-message" role="status"></p>
+
+      <div class="security-note">
+        <h3>Security Considerations</h3>
+        <p>
+          Secure randomness prevents sequence-based token prediction,
+          but it is only one part of a secure password reset system.
+          Real applications must enforce token expiration, one-time
+          use, rate limiting, and verification on the server.
+        </p>
+      </div>
+    </section>
+
+    <!-- MITRE ATT&CK -->
+    <section class="mitre-section" aria-labelledby="mitre-title">
+      <div class="section-heading">
+        <h2 id="mitre-title">MITRE ATT&CK</h2>
+        <p>
+          Related adversary techniques that provide context
+          for token guessing and web credential abuse.
+        </p>
+      </div>
+
+      <div class="reference-grid">
+        <article class="reference-card">
+          <span class="reference-label">RELATED TECHNIQUE</span>
+          <h3>T1110 — Brute Force</h3>
+          <p>
+            Covers attempts to discover valid authentication
+            values through repeated guesses. Related to the
+            candidate-testing concept demonstrated in this lab.
+          </p>
+          <a href="https://attack.mitre.org/techniques/T1110/"
+             target="_blank" rel="noopener noreferrer">
+            View MITRE ATT&CK ↗
+          </a>
+        </article>
+
+        <article class="reference-card">
+          <span class="reference-label">RELATED TECHNIQUE</span>
+          <h3>T1606 — Forge Web Credentials</h3>
+          <p>
+            Provides broader context for abuse of web
+            authentication credentials. It is not a direct
+            classification of predictable reset tokens.
+          </p>
+          <a href="https://attack.mitre.org/techniques/T1606/"
+             target="_blank" rel="noopener noreferrer">
+            View MITRE ATT&CK ↗
+          </a>
+        </article>
+      </div>
+
+      <p class="section-note">
+        MITRE ATT&CK describes adversary behavior.
+        CWE-338 is the direct weakness classification for this lab.
+      </p>
+    </section>
+
+    <!-- Resources -->
+    <section class="resources-section" aria-labelledby="resources-title">
+      <div class="section-heading">
+        <h2 id="resources-title">Resources</h2>
+        <p>
+          Official references for understanding weak randomness
+          and secure password reset design.
+        </p>
+      </div>
+
+      <div class="resources-list">
+        <a href="https://cwe.mitre.org/data/definitions/338.html"
+           target="_blank" rel="noopener noreferrer">
+          <span>
+            <strong>MITRE CWE-338</strong>
+            <small>Cryptographically Weak PRNG</small>
+          </span>
+          <span aria-hidden="true">↗</span>
+        </a>
+
+        <a href="https://owasp.org/Top10/A02_2021-Cryptographic_Failures/"
+           target="_blank" rel="noopener noreferrer">
+          <span>
+            <strong>OWASP Top 10 — A02:2021</strong>
+            <small>Cryptographic Failures</small>
+          </span>
+          <span aria-hidden="true">↗</span>
+        </a>
+
+        <a href="https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html"
+           target="_blank" rel="noopener noreferrer">
+          <span>
+            <strong>OWASP Forgot Password Cheat Sheet</strong>
+            <small>Secure password reset recommendations</small>
+          </span>
+          <span aria-hidden="true">↗</span>
+        </a>
+
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues"
+           target="_blank" rel="noopener noreferrer">
+          <span>
+            <strong>MDN — Crypto.getRandomValues()</strong>
+            <small>Cryptographically strong random values</small>
+          </span>
+          <span aria-hidden="true">↗</span>
+        </a>
+
+        <a href="https://attack.mitre.org/"
+           target="_blank" rel="noopener noreferrer">
+          <span>
+            <strong>MITRE ATT&CK Framework</strong>
+            <small>Adversary tactics and techniques</small>
+          </span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <span>42 WEB SECURITY PROJECT</span>
+      <a href="../index.html#vulnerabilities">
+        Back to vulnerabilities ↑
+      </a>
+    </footer>
+  </main>
+</body>
 </html>

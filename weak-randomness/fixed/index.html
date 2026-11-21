@@ -1,0 +1,209 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Fixed Weak Randomness educational lab">
+  <title>Weak Randomness — Fixed</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <main>
+    <div class="header">
+      <div>
+        <p class="label">WEAK RANDOMNESS LAB</p>
+        <h1>Password Reset Tokens</h1>
+      </div>
+      <span class="status">FIXED</span>
+    </div>
+
+    <p class="description">
+      This demonstration generates unpredictable password
+      reset tokens using a cryptographically secure random
+      number generator.
+    </p>
+
+    <div class="comparison">
+
+      <!-- Attacker -->
+      <section class="panel attacker-panel">
+        <h2>Attacker</h2>
+
+        <p class="hint">
+          Request tokens for your own test account.
+          Previous tokens cannot reliably predict future tokens.
+        </p>
+
+        <div class="actions">
+          <button id="attackerBtn" type="button">
+            Request Token
+          </button>
+        </div>
+
+        <div class="result">
+          <span class="result-label">YOUR TOKEN</span>
+          <strong id="attackerToken">------</strong>
+        </div>
+
+        <div class="section-heading">
+          <h3>Token History</h3>
+          <button id="clearBtn" type="button" class="text-button">
+            Clear History
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Token</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody">
+              <tr>
+                <td colspan="2" class="empty">
+                  No tokens generated yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- User -->
+      <section class="panel user-panel">
+        <h2>User</h2>
+
+        <p class="hint">
+          Request a secure password reset token and verify it.
+        </p>
+
+        <div class="actions">
+          <button id="userBtn" type="button">
+            Request Token
+          </button>
+        </div>
+
+        <div class="result">
+          <span class="result-label">TOKEN STATUS</span>
+          <strong id="userToken">Not requested</strong>
+        </div>
+
+        <label for="verifyInput">
+          Verification Token
+        </label>
+
+        <input
+          id="verifyInput"
+          type="text"
+          inputmode="numeric"
+          maxlength="6"
+          placeholder="Enter 6-digit token"
+          autocomplete="off"
+          spellcheck="false"
+        >
+
+        <div class="actions">
+          <button id="verifyBtn" type="button" class="secondary">
+            Verify Token
+          </button>
+        </div>
+
+        <p id="verifyMessage" class="message" role="status">
+          Waiting for verification.
+        </p>
+
+        <div class="subsection">
+          <h3>Other Users</h3>
+
+          <p class="hint">
+            Simulate additional independent token requests.
+          </p>
+
+          <div class="actions">
+            <button id="otherBtn" type="button" class="secondary">
+              Simulate Requests
+            </button>
+          </div>
+
+          <p class="message">
+            Other requests:
+            <strong id="otherCount">0</strong>
+          </p>
+
+          <p id="userMessage" class="message" role="status">
+            Waiting for user token generation.
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- Security Test -->
+    <section class="panel simulation-panel">
+      <h2>Brute Force Simulation</h2>
+
+      <p class="hint">
+        Test candidate tokens against the fictional user.
+        Verification attempts are restricted.
+      </p>
+
+      <label for="candidateInput">Candidate Tokens</label>
+
+      <textarea
+        id="candidateInput"
+        rows="7"
+        placeholder="Enter one 6-digit token per line"
+        autocomplete="off"
+        spellcheck="false"
+      ></textarea>
+
+      <div class="actions">
+        <button id="testBtn" type="button">
+          Start Simulation
+        </button>
+
+        <button id="resetBtn" type="button" class="secondary">
+          Reset Lab
+        </button>
+      </div>
+
+      <div class="result">
+        <span class="result-label">SIMULATION RESULT</span>
+        <strong id="testResult">Waiting</strong>
+      </div>
+
+      <p id="testMessage" class="message" role="status">
+        Request a user token before starting the simulation.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Attempt</th>
+              <th>Candidate</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="attemptBody">
+            <tr>
+              <td colspan="3" class="empty">
+                No simulation attempts yet.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      Educational simulation — no real accounts,
+      passwords, or authentication endpoints.
+    </p>
+  </main>
+</body>
+</html>
